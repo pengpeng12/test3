@@ -1,5 +1,5 @@
 #coding=utf-8
-
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Max,F,Q
@@ -82,14 +82,44 @@ def session1(request):
     uname=request.session.get('myname','未登录')
     context={'uname':uname}
     return render(request,'booktest/session1.html',context)
+
 def session2(request):
     return render(request,'booktest/session2.html')
+
 def session2_handle(request):
     uname=request.POST['uname']
     request.session['myname']=uname
     request.session.set_expiry(0)
     return redirect('/booktest/session1/')
+
 def session3(request):
     #删除session
     del request.session['myname']
     return redirect('/booktest/session1/')
+
+#进行分页练习
+def herolist(request, pindex):
+    if not pindex:
+        pindex = 1
+
+    list=HeroInfo.objects.all()
+    paginator = Paginator(list,2)
+    page = paginator.page(int(pindex))
+    context = {'page':page}
+    return render(request, 'booktest/herolist.html',context)
+
+
+#自定义编辑器
+def htmlEditor(request):
+    return render(request, 'booktest/htmlEditor.html')
+
+def htmlEditorHandle(request):
+    html = request.POST['hcontent']
+    #修改id为1的
+    # test1 = Test1.objects.get(pk=1)
+    #添加
+    test1 = Test1()
+    test1.content = html
+    test1.save()
+    content = {'content':html}
+    return render(request, 'booktest/htmlEditorHandle.html',content)

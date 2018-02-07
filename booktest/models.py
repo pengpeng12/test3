@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 class BookInfoManager(models.Manager):
     def get_queryset(self):
@@ -33,3 +34,12 @@ class HeroInfo(models.Model):
 
     def __str__(self):
         return self.hname
+
+class AreaInfo(models.Model):
+    title = models.CharField(max_length=20)
+    parea = models.ForeignKey('self', null=True, blank=True)
+
+class Test1(models.Model):
+    content = HTMLField()
+
+

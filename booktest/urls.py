@@ -23,4 +23,9 @@ urlpatterns=[
     url(r'^session2_handle/$', views.session2_handle),
     url(r'^session3/$', views.session3),
 
+    url(r'^herolist/(\d*)$', views.herolist),
+
+    url(r'^htmlEditor/$', views.htmlEditor),
+    url(r'^htmlEditorHandle/$', views.htmlEditorHandle),
+
 ]
